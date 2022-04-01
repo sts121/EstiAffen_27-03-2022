@@ -15,6 +15,7 @@ export default function Forecast() {
   const [comingDays, setComingdays] = useState<DailyForecast[]>();
   const [currentWeather, setCurrentWeather] = useState<Weather>();
   const city = useSelector<forecastState, City>((state) => state.city);
+
   const favoritesList = useSelector<forecastState, City[]>(
     (state) => state.favoriteItems,
   );
@@ -61,7 +62,9 @@ export default function Forecast() {
                 src={`../assets/weatherIcons/${currentWeather?.weatherIcon}.png`}
               />
               <Card.Header>{city.localizedName}</Card.Header>
-              <Card.Meta>{`${currentWeather?.temperature?.metric?.value}`}</Card.Meta>
+              <Card.Meta>
+                {`${currentWeather?.temperature?.metric?.value}`}&#176;
+              </Card.Meta>
               <Card.Description>{currentWeather?.weatherText}</Card.Description>
             </Card.Content>
             <Card.Content extra textAlign="center">

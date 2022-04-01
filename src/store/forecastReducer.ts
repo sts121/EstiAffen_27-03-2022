@@ -1,4 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit"
 import City from "../models/city"
 import { Action } from "./actions"
 
@@ -7,7 +6,8 @@ export interface forecastState{
     city : City,
     favoriteItems: City[],
     darkMode: boolean,
-    isFavorite : boolean
+    isFavorite : boolean,
+    activeItem:string
 }
 const initialState = {
     city:{
@@ -21,7 +21,8 @@ const initialState = {
     },
     favoriteItems:[],
     darkMode:false,
-    isFavorite:false
+    isFavorite:false,
+    activeItem:"home"
 }
 
 
@@ -37,9 +38,9 @@ export const forecastReducer = (state:forecastState = initialState, action:Actio
         case "REMOVE_FAVORITE":{
             return {...state,favoriteItems: [...state.favoriteItems.filter(x => x.key!== action.payload)]}
         }
-        //  case "IS_FAVORITE":{
-        //      return {...state,isFavorite: state.favoriteItems.findIndex(x => x.key === state.city.key) > 1}
-        //  }
+         case "SET_ACTIVEITEM":{
+             return {...state,activeItem: action.payload}
+         }
         case "TOGGLE_DARKMODE":{
             return {...state,darkMode: !state.darkMode}
         }

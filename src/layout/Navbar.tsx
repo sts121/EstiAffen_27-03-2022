@@ -1,13 +1,13 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Container, Icon, Image, Menu } from "semantic-ui-react";
-import { toggleDarkMode } from "../store/actions";
+import { Container, Image, Menu } from "semantic-ui-react";
+import { setActiveItem, toggleDarkMode } from "../store/actions";
 import { forecastState } from "../store/forecastReducer";
 
 export default function Navbar() {
-  const [activeItem, setActiveItem] = useState("home");
+  //const [activeItem, setActiveItem] = useState("home");
   const darkMode = useSelector<forecastState>((state) => state.darkMode);
+  const activeItem = useSelector<forecastState>((state) => state.activeItem);
   const dispatch = useDispatch();
   const onToggleDarkMode = () => {
     dispatch(toggleDarkMode());
@@ -20,7 +20,7 @@ export default function Navbar() {
         caseSensitive
         header
         src="/assets/logo3.png"
-        onClick={() => setActiveItem("home")}
+        onClick={() => dispatch(setActiveItem("home"))}
         alt="logo"
         style={{ margin: "15px", width: "70px" }}
       />
@@ -31,7 +31,7 @@ export default function Navbar() {
           as={NavLink}
           to="/"
           caseSensitive
-          onClick={() => setActiveItem("home")}
+          onClick={() => dispatch(setActiveItem("home"))}
           icon="home"
         />
         <Menu.Item
@@ -40,7 +40,7 @@ export default function Navbar() {
           as={NavLink}
           to="/favorites"
           caseSensitive
-          onClick={() => setActiveItem("favorites")}
+          onClick={() => dispatch(setActiveItem("favorites"))}
           icon="heart"
         />
         <Menu.Menu position="right">

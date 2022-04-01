@@ -8,15 +8,17 @@ import { lightTheme, darkTheme } from "../styles/theme";
 import { GlobalStyles } from "../styles/global";
 import { useSelector } from "react-redux";
 import { forecastState } from "../store/forecastReducer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const darkMode = useSelector<forecastState>((state) => state.darkMode);
   return (
     <>
+      <ToastContainer position="bottom-right" />
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <GlobalStyles />
         <Navbar />
-        <Container style={{ marginTop: "7em"  }}>
+        <Container style={{ marginTop: "7em" }}>
           <Routes>
             <Route path="/" caseSensitive element={<HomePage />} />
             <Route path="/favorites" element={<FavoritesDashboard />} />

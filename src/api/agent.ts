@@ -1,17 +1,53 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import {  toast } from 'react-toastify';
 
 
 axios.defaults.baseURL = "http://dataservice.accuweather.com";
 
 const apiKey = "SUnuBGzxV5mzzMoUAKdKHUKUJrcXGwPY";
 
-axios.interceptors.response.use(
-response => {
-    return response;
-  }, error => {
-    console.log(error);
-       return Promise.reject(error);
-  });
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error:AxiosError) {
+        const {data,status,config} =error.response!;
+        switch(status){
+          case 400:
+            toast.error('bad request');
+            break;
+          case 401:
+            toast.error('unauthorized');
+            break;
+          case 404:
+            toast.error('not found');
+            break;
+          case 500:
+            toast.error('server error');
+            break;
+        }
+  return Promise.reject(error);
+});
+
+// axios.interceptors.response.use(async response =>{
+//     return response
+//   },error =>{
+//     const {data,status} =error.response!;
+//     switch(status){
+//       case 400:
+//         toast.error('bad request');
+//         break;
+//       case 401:
+//         toast.error('unauthorized');
+//         break;
+//       case 404:
+//         toast.error('not found');
+//         break;
+//       case 500:
+//         toast.error('server error');
+//         break;
+//     }
+//     return Promise.reject(error);
+//   });
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 

@@ -19,7 +19,9 @@ export default function ForecastMiniItem({ forecastItem }: Props) {
         <Card.Meta>
           {new Date(forecastItem.date).toLocaleDateString()}
         </Card.Meta>
-        <Card.Meta floated="right">{`${forecastItem.temperature.minimum.value}-${forecastItem.temperature.maximum.value}`}</Card.Meta>
+        <Card.Meta floated="right">
+          {`${forecastItem.temperature.minimum.value}-${forecastItem.temperature.maximum.value}\u00B0`}
+        </Card.Meta>
         <DayPart dayPart={isDay ? forecastItem.day : forecastItem.night} />
         <Card.Content extra>
           <div className="ui two buttons">

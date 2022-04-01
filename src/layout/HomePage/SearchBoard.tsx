@@ -42,7 +42,7 @@ export default function SearchBoard() {
 
   return (
     <>
-      <Grid inverted centered>
+      <Grid  centered>
         <Grid.Row>
           <Search
             fluid

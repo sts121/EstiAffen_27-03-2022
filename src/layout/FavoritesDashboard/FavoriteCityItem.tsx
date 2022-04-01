@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Button, Card, Icon, Image } from "semantic-ui-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Button, Card, Icon, Image, Segment } from "semantic-ui-react";
 import agent from "../../api/agent";
 import City from "../../models/city";
 import Weather from "../../models/weather";
-import { removeFavoriteItem } from "../../store/actions";
+import {
+  removeFavoriteItem,
+  selectCity,
+  setActiveItem,
+} from "../../store/actions";
+import { forecastState } from "../../store/forecastReducer";
 import { camelize } from "../../store/store";
 interface Props {
   favoriteItem: City;
@@ -12,6 +18,9 @@ interface Props {
 
 export default function FavoriteCityItem({ favoriteItem }: Props) {
   const [currentWeather, setCurrentWeather] = useState<Weather>();
+  const favoritesList = useSelector<forecastState, City[]>(
+    (state) => state.favoriteItems,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,10 +32,20 @@ export default function FavoriteCityItem({ favoriteItem }: Props) {
 
   const handleDelete = () => dispatch(removeFavoriteItem(favoriteItem.key));
 
+  const handleHoverToFavorite = () => {
+    const city = favoritesList.find((x) => x.key === favoriteItem.key);
+    city && dispatch(selectCity(city));
+    dispatch(setActiveItem("home"));
+  };
   if (!currentWeather) return <></>;
   return (
     <>
-      <Card key={favoriteItem.key}>
+      <Card
+        as={Link}
+        onClick={handleHoverToFavorite}
+        to={`/`}
+        key={favoriteItem.key}
+      >
         <Card.Content>
           <Image
             size="small"
@@ -44,7 +63,7 @@ export default function FavoriteCityItem({ favoriteItem }: Props) {
             ).toLocaleDateString()}
           </Card.Meta>
           <Card.Description>
-            <div> {currentWeather.temperature.metric.value}</div>
+            <div> {currentWeather.temperature.metric.value} &#176;</div>
             {currentWeather.weatherText}
           </Card.Description>
         </Card.Content>
